@@ -1,0 +1,851 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Studio Fleur — Toronto Makeup Artist</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500;1,600&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            ivory: '#faf4ed',
+            'ivory-2': '#f4ebe0',
+            mauve: '#8c5572',
+            'mauve-light': '#c4899c',
+            'mauve-dark': '#6d3f58',
+            'mauve-deep': '#4e2a3c',
+            ink: '#1c1518',
+          },
+          fontFamily: {
+            heading: ['"Cormorant Garamond"', 'serif'],
+            body: ['"Jost"', 'sans-serif'],
+          },
+        }
+      }
+    }
+  </script>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: #faf4ed;
+      color: #1c1518;
+      font-family: 'Jost', sans-serif;
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+      font-weight: 300;
+    }
+
+    /* ─── NAV ─── */
+    #navbar {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 500;
+      padding: 1.5rem 2.5rem;
+      transition: background 0.5s ease, padding 0.4s ease, border-color 0.5s ease, box-shadow 0.5s ease;
+      border-bottom: 1px solid transparent;
+    }
+    #navbar.scrolled {
+      background: rgba(250, 244, 237, 0.96);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      padding: 1rem 2.5rem;
+      border-bottom-color: rgba(140, 85, 114, 0.14);
+      box-shadow: 0 1px 20px rgba(28, 21, 24, 0.07);
+    }
+    .nav-link {
+      font-size: 0.68rem;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: rgba(28, 21, 24, 0.5);
+      text-decoration: none;
+      position: relative;
+      transition: color 0.3s ease;
+      font-weight: 400;
+    }
+    .nav-link::after {
+      content: '';
+      position: absolute;
+      bottom: -3px; left: 0;
+      width: 0; height: 1px;
+      background: #8c5572;
+      transition: width 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .nav-link:hover { color: #8c5572; }
+    .nav-link:hover::after { width: 100%; }
+
+    /* ─── BUTTONS ─── */
+    .btn-mauve {
+      display: inline-block;
+      background: #8c5572;
+      color: #faf4ed;
+      font-family: 'Jost', sans-serif;
+      font-size: 0.68rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      text-decoration: none;
+      font-weight: 400;
+      transition: background 0.3s ease, box-shadow 0.3s ease, transform 0.2s ease;
+      box-shadow: 0 4px 20px rgba(140, 85, 114, 0.25);
+      cursor: pointer;
+      border: none;
+    }
+    .btn-mauve:hover {
+      background: #6d3f58;
+      box-shadow: 0 8px 32px rgba(140, 85, 114, 0.35);
+      transform: translateY(-1px);
+    }
+    .btn-mauve:active { transform: translateY(0); }
+
+    .btn-outline-mauve {
+      display: inline-block;
+      padding: 0.9rem 2.5rem;
+      border: 1px solid #8c5572;
+      color: #8c5572;
+      font-family: 'Jost', sans-serif;
+      font-size: 0.7rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      text-decoration: none;
+      font-weight: 400;
+      position: relative;
+      overflow: hidden;
+      transition: color 0.35s ease;
+      cursor: pointer;
+      background: transparent;
+    }
+    .btn-outline-mauve::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: #8c5572;
+      transform: translateX(-101%);
+      transition: transform 0.38s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .btn-outline-mauve:hover::before { transform: translateX(0); }
+    .btn-outline-mauve:hover { color: #faf4ed; }
+    .btn-outline-mauve span { position: relative; z-index: 1; }
+
+    .btn-ivory {
+      display: inline-block;
+      padding: 1rem 3rem;
+      background: #faf4ed;
+      color: #4e2a3c;
+      font-family: 'Jost', sans-serif;
+      font-size: 0.72rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      text-decoration: none;
+      font-weight: 500;
+      transition: background 0.3s ease, box-shadow 0.3s ease, transform 0.2s ease;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.14);
+      cursor: pointer;
+      border: none;
+    }
+    .btn-ivory:hover {
+      background: #f4ebe0;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.2);
+      transform: translateY(-1px);
+    }
+
+    /* ─── HERO ─── */
+    .hero-bg {
+      background:
+        radial-gradient(ellipse 80% 60% at 5% 5%, rgba(196, 137, 156, 0.2) 0%, transparent 55%),
+        radial-gradient(ellipse 60% 70% at 95% 95%, rgba(140, 85, 114, 0.13) 0%, transparent 55%),
+        radial-gradient(ellipse 100% 50% at 50% 100%, rgba(244, 235, 224, 0.9) 0%, transparent 60%),
+        #faf4ed;
+    }
+
+    /* ─── DIVIDERS ─── */
+    .line-mauve {
+      width: 48px; height: 1px;
+      background: linear-gradient(90deg, #8c5572, rgba(140,85,114,0.15));
+    }
+    .line-mauve-center {
+      width: 60px; height: 1px;
+      background: linear-gradient(90deg, transparent, #8c5572, transparent);
+      margin: 0 auto;
+    }
+    .line-thin {
+      width: 100%; height: 1px;
+      background: rgba(28,21,24,0.08);
+    }
+
+    /* ─── SERVICE CARDS ─── */
+    .service-card {
+      background: #faf4ed;
+      border: 1px solid rgba(140, 85, 114, 0.15);
+      padding: 2.25rem 2rem;
+      position: relative;
+      overflow: hidden;
+      transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1),
+                  border-color 0.35s ease,
+                  box-shadow 0.35s ease,
+                  background 0.35s ease;
+    }
+    .service-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0;
+      width: 3px; height: 0;
+      background: linear-gradient(to bottom, #8c5572, #c4899c);
+      transition: height 0.42s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .service-card:hover {
+      transform: translateY(-4px);
+      border-color: rgba(140, 85, 114, 0.3);
+      box-shadow: 0 20px 50px rgba(28,21,24,0.07), 0 4px 16px rgba(140,85,114,0.1);
+      background: #f4ebe0;
+    }
+    .service-card:hover::before { height: 100%; }
+
+    /* ─── GALLERY ─── */
+    .gallery-item {
+      aspect-ratio: 4/5;
+      overflow: hidden;
+      position: relative;
+    }
+    .gallery-item img {
+      width: 100%; height: 100%;
+      object-fit: cover;
+      transition: transform 0.7s cubic-bezier(0.4, 0, 0.2, 1);
+      filter: brightness(0.94) contrast(1.04) saturate(0.82);
+      display: block;
+    }
+    .gallery-item::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to top, rgba(28,21,24,0.28) 0%, transparent 50%);
+      z-index: 1;
+      transition: opacity 0.4s ease;
+    }
+    .gallery-item:hover img { transform: scale(1.06); }
+    .gallery-item:hover::after { opacity: 0.5; }
+
+    /* ─── TESTIMONIALS ─── */
+    .testimonial-card {
+      background: #faf4ed;
+      border: 1px solid rgba(140, 85, 114, 0.12);
+      padding: 2.5rem 2.25rem;
+      position: relative;
+    }
+    .testimonial-card::before {
+      content: '\201C';
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 7rem;
+      line-height: 1;
+      position: absolute;
+      top: -0.75rem; left: 1.5rem;
+      color: #8c5572;
+      opacity: 0.1;
+    }
+
+    /* ─── FORM ─── */
+    .form-field {
+      background: #faf4ed;
+      border: 1px solid rgba(140, 85, 114, 0.2);
+      color: #1c1518;
+      padding: 0.9rem 1.2rem;
+      width: 100%;
+      font-family: 'Jost', sans-serif;
+      font-size: 0.88rem;
+      font-weight: 300;
+      outline: none;
+      transition: border-color 0.3s ease, background 0.3s ease, box-shadow 0.3s ease;
+    }
+    .form-field::placeholder { color: rgba(28,21,24,0.28); }
+    .form-field:focus {
+      border-color: #8c5572;
+      background: #fff;
+      box-shadow: 0 0 0 3px rgba(140,85,114,0.07);
+    }
+
+    /* ─── HAMBURGER ─── */
+    .ham-line {
+      display: block;
+      width: 22px; height: 1px;
+      background: #1c1518;
+      transition: transform 0.3s ease, opacity 0.3s ease;
+    }
+    #hamburger.open .ham-line:nth-child(1) { transform: rotate(45deg) translate(3px, 5px); }
+    #hamburger.open .ham-line:nth-child(2) { opacity: 0; }
+    #hamburger.open .ham-line:nth-child(3) { transform: rotate(-45deg) translate(3px, -5px); }
+
+    /* ─── MOBILE MENU ─── */
+    #mobile-menu {
+      position: fixed;
+      inset: 0;
+      background: rgba(250, 244, 237, 0.98);
+      backdrop-filter: blur(20px);
+      z-index: 499;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 2.5rem;
+      transform: translateX(100%);
+      transition: transform 0.42s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    #mobile-menu.open { transform: translateX(0); }
+    .mobile-nav-link {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 2.2rem;
+      font-weight: 300;
+      letter-spacing: 0.04em;
+      color: rgba(28,21,24,0.6);
+      text-decoration: none;
+      transition: color 0.3s ease;
+      font-style: italic;
+    }
+    .mobile-nav-link:hover { color: #8c5572; }
+
+    /* ─── SCROLL REVEAL ─── */
+    .reveal {
+      transition: opacity 0.8s cubic-bezier(0.4, 0, 0.2, 1),
+                  transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .reveal.will-animate { opacity: 0; transform: translateY(24px); }
+    .reveal.will-animate.in { opacity: 1; transform: translateY(0); }
+    .reveal.d1 { transition-delay: 0.08s; }
+    .reveal.d2 { transition-delay: 0.16s; }
+    .reveal.d3 { transition-delay: 0.24s; }
+    .reveal.d4 { transition-delay: 0.32s; }
+    .reveal.d5 { transition-delay: 0.40s; }
+
+    /* ─── MISC ─── */
+    ::-webkit-scrollbar { width: 3px; }
+    ::-webkit-scrollbar-track { background: #faf4ed; }
+    ::-webkit-scrollbar-thumb { background: rgba(140,85,114,0.3); border-radius: 2px; }
+
+    .section-overline {
+      font-family: 'Jost', sans-serif;
+      font-size: 0.65rem;
+      letter-spacing: 0.28em;
+      text-transform: uppercase;
+      color: #8c5572;
+      font-weight: 400;
+    }
+    .stars { color: #8c5572; letter-spacing: 3px; font-size: 0.8rem; }
+  </style>
+</head>
+<body>
+
+<!-- ═══════════════════════════════════════════
+     NAV
+═══════════════════════════════════════════ -->
+<nav id="navbar">
+  <div style="max-width:1280px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;">
+    <a href="#home" style="text-decoration:none;">
+      <div>
+        <div class="font-heading" style="font-size:1.3rem;font-weight:300;font-style:italic;letter-spacing:0.06em;color:#1c1518;line-height:1.1;">Studio Fleur</div>
+        <div style="font-size:0.52rem;letter-spacing:0.22em;text-transform:uppercase;color:rgba(28,21,24,0.38);font-family:'Jost',sans-serif;margin-top:2px;">Makeup Artist — Toronto</div>
+      </div>
+    </a>
+
+    <div class="hidden md:flex items-center" style="gap:2.5rem;">
+      <a href="#services" class="nav-link">Services</a>
+      <a href="#gallery" class="nav-link">Gallery</a>
+      <a href="#about" class="nav-link">About</a>
+      <a href="#testimonials" class="nav-link">Reviews</a>
+      <a href="#contact" class="nav-link">Contact</a>
+      <a href="https://calendly.com/studiofleur" target="_blank" class="btn-mauve" style="padding:0.62rem 1.4rem;font-size:0.64rem;">Book Now</a>
+    </div>
+
+    <button id="hamburger" class="md:hidden flex flex-col justify-center" style="gap:6px;background:none;border:none;cursor:pointer;padding:4px;" aria-label="Menu">
+      <span class="ham-line"></span>
+      <span class="ham-line"></span>
+      <span class="ham-line"></span>
+    </button>
+  </div>
+</nav>
+
+<div id="mobile-menu">
+  <div class="font-heading" style="font-size:1.5rem;font-style:italic;color:#8c5572;margin-bottom:0.5rem;">Studio Fleur</div>
+  <a href="#services" class="mobile-nav-link" onclick="closeMenu()">Services</a>
+  <a href="#gallery" class="mobile-nav-link" onclick="closeMenu()">Gallery</a>
+  <a href="#about" class="mobile-nav-link" onclick="closeMenu()">About</a>
+  <a href="#testimonials" class="mobile-nav-link" onclick="closeMenu()">Reviews</a>
+  <a href="#contact" class="mobile-nav-link" onclick="closeMenu()">Contact</a>
+  <a href="https://calendly.com/studiofleur" target="_blank" class="btn-mauve" onclick="closeMenu()" style="padding:0.85rem 2.2rem;margin-top:0.5rem;">Book Now</a>
+</div>
+
+
+<!-- ═══════════════════════════════════════════
+     HERO
+═══════════════════════════════════════════ -->
+<section id="home" class="hero-bg" style="min-height:100svh;display:flex;flex-direction:column;align-items:center;justify-content:center;position:relative;overflow:hidden;padding:8rem 1.5rem 6rem;">
+
+  <!-- Editorial watermark -->
+  <div style="position:absolute;right:-1rem;bottom:-2rem;font-family:'Cormorant Garamond',serif;font-size:clamp(8rem,22vw,18rem);font-weight:300;font-style:italic;color:rgba(140,85,114,0.055);line-height:1;pointer-events:none;user-select:none;white-space:nowrap;">Fleur</div>
+
+  <!-- Left vertical rule — desktop only -->
+  <div style="position:absolute;left:2.5rem;top:50%;transform:translateY(-50%);width:1px;height:28vh;background:linear-gradient(to bottom,transparent,rgba(140,85,114,0.28),transparent);" class="hidden md:block"></div>
+
+  <div style="max-width:860px;margin:0 auto;text-align:center;position:relative;z-index:1;">
+    <div class="reveal" style="display:flex;align-items:center;justify-content:center;gap:1.25rem;margin-bottom:2rem;">
+      <div style="width:28px;height:1px;background:rgba(140,85,114,0.45);"></div>
+      <span class="section-overline">Toronto-Based Makeup Artist</span>
+      <div style="width:28px;height:1px;background:rgba(140,85,114,0.45);"></div>
+    </div>
+
+    <h1 class="reveal d1 font-heading" style="font-size:clamp(3rem,8vw,6.5rem);font-weight:300;line-height:1.05;letter-spacing:-0.02em;color:#1c1518;margin-bottom:1.75rem;">
+      Beauty Is Not<br><em style="font-style:italic;color:#8c5572;">One Size</em><br>Fits All
+    </h1>
+
+    <div class="reveal d2 line-mauve-center" style="margin-bottom:1.75rem;"></div>
+
+    <p class="reveal d3" style="font-size:0.95rem;line-height:1.85;color:rgba(28,21,24,0.55);max-width:500px;margin:0 auto 3rem;letter-spacing:0.02em;">
+      Custom makeup artistry for every face, every story, every moment.
+    </p>
+
+    <div class="reveal d4" style="display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;">
+      <a href="https://calendly.com/studiofleur" target="_blank" class="btn-mauve" style="padding:1rem 3rem;font-size:0.72rem;letter-spacing:0.2em;">Book Your Look</a>
+      <a href="#services" class="btn-outline-mauve"><span>Explore Services</span></a>
+    </div>
+  </div>
+
+  <div class="reveal d5" style="position:absolute;bottom:2.5rem;left:50%;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:0.5rem;">
+    <div style="width:1px;height:36px;background:linear-gradient(to bottom,rgba(140,85,114,0.5),transparent);"></div>
+    <span style="font-size:0.58rem;letter-spacing:0.22em;text-transform:uppercase;color:rgba(28,21,24,0.28);">Scroll</span>
+  </div>
+</section>
+
+
+<!-- ═══════════════════════════════════════════
+     SERVICES
+═══════════════════════════════════════════ -->
+<section id="services" style="background:#f4ebe0;padding:7rem 1.5rem;">
+  <div style="max-width:1280px;margin:0 auto;">
+
+    <div class="reveal" style="text-align:center;margin-bottom:4.5rem;">
+      <span class="section-overline">What I Offer</span>
+      <h2 class="font-heading" style="font-size:clamp(2.5rem,5vw,4rem);font-weight:300;letter-spacing:-0.02em;color:#1c1518;margin-top:0.75rem;margin-bottom:1.5rem;">Services &amp; Pricing</h2>
+      <div class="line-mauve-center"></div>
+    </div>
+
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(270px,1fr));gap:1.25rem;">
+
+      <div class="service-card reveal d1">
+        <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:1rem;gap:0.5rem;">
+          <h3 class="font-heading" style="font-size:1.5rem;font-weight:300;color:#1c1518;line-height:1.25;">Bridal Glam<br><em style="font-size:0.9rem;color:#8c5572;">Full Day</em></h3>
+          <span class="font-heading" style="font-size:1.75rem;font-weight:300;color:#8c5572;white-space:nowrap;">$450</span>
+        </div>
+        <div class="line-thin" style="margin-bottom:1rem;"></div>
+        <p style="font-size:0.82rem;line-height:1.75;color:rgba(28,21,24,0.52);">Full glam for the bride — includes trial session, touch up kit, and on-site application.</p>
+      </div>
+
+      <div class="service-card reveal d2">
+        <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:1rem;gap:0.5rem;">
+          <h3 class="font-heading" style="font-size:1.5rem;font-weight:300;color:#1c1518;line-height:1.25;">Bridal Trial</h3>
+          <span class="font-heading" style="font-size:1.75rem;font-weight:300;color:#8c5572;white-space:nowrap;">$150</span>
+        </div>
+        <div class="line-thin" style="margin-bottom:1rem;"></div>
+        <p style="font-size:0.82rem;line-height:1.75;color:rgba(28,21,24,0.52);">Pre-wedding trial run to perfect your wedding day look before the big day.</p>
+      </div>
+
+      <div class="service-card reveal d3">
+        <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:1rem;gap:0.5rem;">
+          <h3 class="font-heading" style="font-size:1.5rem;font-weight:300;color:#1c1518;line-height:1.25;">Bridesmaid<br><em style="font-size:0.9rem;color:#8c5572;">Per Person</em></h3>
+          <span class="font-heading" style="font-size:1.75rem;font-weight:300;color:#8c5572;white-space:nowrap;">$95</span>
+        </div>
+        <div class="line-thin" style="margin-bottom:1rem;"></div>
+        <p style="font-size:0.82rem;line-height:1.75;color:rgba(28,21,24,0.52);">Elegant, cohesive looks for the whole bridal party.</p>
+      </div>
+
+      <div class="service-card reveal d1">
+        <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:1rem;gap:0.5rem;">
+          <h3 class="font-heading" style="font-size:1.5rem;font-weight:300;color:#1c1518;line-height:1.25;">Editorial &amp;<br><em style="font-size:0.9rem;color:#8c5572;">Photoshoot</em></h3>
+          <span class="font-heading" style="font-size:1.75rem;font-weight:300;color:#8c5572;white-space:nowrap;">$200</span>
+        </div>
+        <div class="line-thin" style="margin-bottom:1rem;"></div>
+        <p style="font-size:0.82rem;line-height:1.75;color:rgba(28,21,24,0.52);">High fashion looks for photographers, content creators, and brands.</p>
+      </div>
+
+      <div class="service-card reveal d2">
+        <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:1rem;gap:0.5rem;">
+          <h3 class="font-heading" style="font-size:1.5rem;font-weight:300;color:#1c1518;line-height:1.25;">Special Occasion<br><em style="font-size:0.9rem;color:#8c5572;">Glam</em></h3>
+          <span class="font-heading" style="font-size:1.75rem;font-weight:300;color:#8c5572;white-space:nowrap;">$120</span>
+        </div>
+        <div class="line-thin" style="margin-bottom:1rem;"></div>
+        <p style="font-size:0.82rem;line-height:1.75;color:rgba(28,21,24,0.52);">Birthdays, galas, proms, date nights — look unforgettable for any occasion.</p>
+      </div>
+
+      <div class="service-card reveal d3">
+        <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:1rem;gap:0.5rem;">
+          <h3 class="font-heading" style="font-size:1.5rem;font-weight:300;color:#1c1518;line-height:1.25;">Natural Everyday<br><em style="font-size:0.9rem;color:#8c5572;">Glam</em></h3>
+          <span class="font-heading" style="font-size:1.75rem;font-weight:300;color:#8c5572;white-space:nowrap;">$85</span>
+        </div>
+        <div class="line-thin" style="margin-bottom:1rem;"></div>
+        <p style="font-size:0.82rem;line-height:1.75;color:rgba(28,21,24,0.52);">Clean, polished, effortless looks for any day.</p>
+      </div>
+
+      <div class="service-card reveal d1" style="grid-column:1/-1;">
+        <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1.25rem;">
+          <div>
+            <h3 class="font-heading" style="font-size:1.5rem;font-weight:300;color:#1c1518;margin-bottom:0.4rem;">Halloween &amp; Fantasy</h3>
+            <p style="font-size:0.82rem;line-height:1.75;color:rgba(28,21,24,0.52);max-width:500px;">Creative, artistic, and transformative looks. Let your imagination run wild — no idea is too bold.</p>
+          </div>
+          <span class="font-heading" style="font-size:2rem;font-weight:300;color:#8c5572;white-space:nowrap;">$150</span>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="reveal" style="text-align:center;margin-top:3rem;">
+      <a href="https://calendly.com/studiofleur" target="_blank" class="btn-outline-mauve"><span>Book Your Service</span></a>
+    </div>
+  </div>
+</section>
+
+
+<!-- ═══════════════════════════════════════════
+     GALLERY
+═══════════════════════════════════════════ -->
+<section id="gallery" style="background:#faf4ed;padding:7rem 1.5rem;">
+  <div style="max-width:1280px;margin:0 auto;">
+
+    <div class="reveal" style="margin-bottom:3.5rem;">
+      <div style="display:flex;align-items:flex-end;justify-content:space-between;flex-wrap:wrap;gap:1.5rem;margin-bottom:2rem;">
+        <div>
+          <span class="section-overline">Portfolio</span>
+          <h2 class="font-heading" style="font-size:clamp(2.5rem,5vw,4rem);font-weight:300;letter-spacing:-0.02em;color:#1c1518;margin-top:0.75rem;">The Art<br><em style="font-style:italic;color:#8c5572;">of Beauty</em></h2>
+        </div>
+        <a href="https://www.instagram.com/studiofleur" target="_blank" style="font-family:'Jost',sans-serif;font-size:0.66rem;letter-spacing:0.16em;text-transform:uppercase;color:rgba(28,21,24,0.4);text-decoration:none;transition:color 0.3s;margin-bottom:0.25rem;" onmouseover="this.style.color='#8c5572'" onmouseout="this.style.color='rgba(28,21,24,0.4)'">
+          @studiofleur ↗
+        </a>
+      </div>
+      <div class="line-thin"></div>
+    </div>
+
+    <div id="gallery-grid" style="display:grid;grid-template-columns:repeat(2,1fr);gap:0.75rem;">
+      <div class="gallery-item reveal d1"><img src="https://images.unsplash.com/photo-1502823403499-6ccfcf4fb453?auto=format&fit=crop&w=600&h=750&q=80" alt="Look 1"></div>
+      <div class="gallery-item reveal d2"><img src="https://images.unsplash.com/photo-1517841905240-472988babdf9?auto=format&fit=crop&w=600&h=750&q=80" alt="Look 2"></div>
+      <div class="gallery-item reveal d3"><img src="https://images.unsplash.com/photo-1519699047748-de8e457a634e?auto=format&fit=crop&w=600&h=750&q=80" alt="Look 3"></div>
+      <div class="gallery-item reveal d4"><img src="https://images.unsplash.com/photo-1503951914875-452162b0f3f1?auto=format&fit=crop&w=600&h=750&q=80" alt="Look 4"></div>
+      <div class="gallery-item reveal d1"><img src="https://images.unsplash.com/photo-1520813792240-56fc4a3765a7?auto=format&fit=crop&w=600&h=750&q=80" alt="Look 5"></div>
+      <div class="gallery-item reveal d2"><img src="https://images.unsplash.com/photo-1469334031218-e382a71b716b?auto=format&fit=crop&w=600&h=750&q=80" alt="Look 6"></div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ═══════════════════════════════════════════
+     ABOUT
+═══════════════════════════════════════════ -->
+<section id="about" style="background:#f4ebe0;padding:7rem 1.5rem;">
+  <div style="max-width:1280px;margin:0 auto;">
+    <div id="about-grid" style="display:grid;grid-template-columns:1fr;gap:5rem;align-items:center;">
+
+      <!-- Photo -->
+      <div class="reveal" style="max-width:460px;width:100%;margin:0 auto;order:2;">
+        <div style="position:relative;">
+          <!-- Offset decorative border frame -->
+          <div style="position:absolute;top:-14px;left:-14px;right:14px;bottom:14px;border:1px solid rgba(140,85,114,0.22);pointer-events:none;z-index:0;"></div>
+          <div style="overflow:hidden;aspect-ratio:4/5;position:relative;z-index:1;">
+            <img src="https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=crop&w=560&h=700&crop=faces,top&q=80" alt="Isabelle"
+              style="width:100%;height:100%;object-fit:cover;display:block;filter:brightness(0.94) contrast(1.04) saturate(0.85);">
+            <div style="position:absolute;inset:0;background:linear-gradient(to top,rgba(28,21,24,0.18) 0%,transparent 50%);"></div>
+          </div>
+          <div style="position:absolute;bottom:0;left:0;right:0;height:3px;background:linear-gradient(90deg,#8c5572,rgba(140,85,114,0.2));z-index:2;"></div>
+        </div>
+      </div>
+
+      <!-- Text -->
+      <div class="reveal d2" style="order:1;">
+        <span class="section-overline">Meet Your Artist</span>
+        <h2 class="font-heading" style="font-size:clamp(2.5rem,4.5vw,3.75rem);font-weight:300;letter-spacing:-0.02em;color:#1c1518;margin-top:0.75rem;margin-bottom:1.5rem;">
+          Hi, I'm <em style="font-style:italic;color:#8c5572;">Isabelle</em>
+        </h2>
+        <div class="line-mauve" style="margin-bottom:2rem;"></div>
+        <p style="font-size:0.96rem;line-height:1.95;color:rgba(28,21,24,0.6);margin-bottom:1.4rem;">
+          A Toronto-based makeup artist with over 6 years of experience in bridal, editorial, and special occasion makeup. I believe makeup is more than just product on skin — it's a form of self expression and confidence.
+        </p>
+        <p style="font-size:0.96rem;line-height:1.95;color:rgba(28,21,24,0.6);margin-bottom:2.75rem;">
+          My approach is collaborative, inclusive, and always tailored to you. Whether you're walking down the aisle, stepping in front of a camera, or just want to feel like the best version of yourself, I'm here for it. Let's create something beautiful together.
+        </p>
+        <div style="display:flex;flex-wrap:wrap;gap:1.75rem;margin-bottom:2.75rem;">
+          <div style="display:flex;align-items:center;gap:0.6rem;">
+            <div style="width:4px;height:4px;border-radius:50%;background:#8c5572;"></div>
+            <span style="font-size:0.68rem;letter-spacing:0.14em;text-transform:uppercase;color:#8c5572;">Licensed Artist</span>
+          </div>
+          <div style="display:flex;align-items:center;gap:0.6rem;">
+            <div style="width:4px;height:4px;border-radius:50%;background:#8c5572;"></div>
+            <span style="font-size:0.68rem;letter-spacing:0.14em;text-transform:uppercase;color:#8c5572;">6+ Years Experience</span>
+          </div>
+          <div style="display:flex;align-items:center;gap:0.6rem;">
+            <div style="width:4px;height:4px;border-radius:50%;background:#8c5572;"></div>
+            <span style="font-size:0.68rem;letter-spacing:0.14em;text-transform:uppercase;color:#8c5572;">Toronto, Ontario</span>
+          </div>
+        </div>
+        <a href="https://calendly.com/studiofleur" target="_blank" class="btn-outline-mauve"><span>Book With Isabelle</span></a>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+
+<!-- ═══════════════════════════════════════════
+     TESTIMONIALS
+═══════════════════════════════════════════ -->
+<section id="testimonials" style="background:#faf4ed;padding:7rem 1.5rem;">
+  <div style="max-width:1280px;margin:0 auto;">
+
+    <div class="reveal" style="text-align:center;margin-bottom:4.5rem;">
+      <span class="section-overline">Client Love</span>
+      <h2 class="font-heading" style="font-size:clamp(2.5rem,5vw,4rem);font-weight:300;letter-spacing:-0.02em;color:#1c1518;margin-top:0.75rem;margin-bottom:1.5rem;">What They're Saying</h2>
+      <div class="line-mauve-center"></div>
+    </div>
+
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1.5rem;">
+
+      <div class="testimonial-card reveal d1">
+        <div class="stars" style="margin-bottom:1.5rem;">★★★★★</div>
+        <p class="font-heading" style="font-size:1.12rem;font-style:italic;font-weight:300;line-height:1.78;color:rgba(28,21,24,0.72);margin-bottom:1.5rem;">
+          "Isabelle did my wedding makeup and I have never felt more beautiful in my life. She listened to everything I wanted and delivered beyond my expectations."
+        </p>
+        <div style="width:32px;height:1px;background:rgba(140,85,114,0.35);margin-bottom:0.85rem;"></div>
+        <span style="font-size:0.68rem;letter-spacing:0.14em;text-transform:uppercase;color:#8c5572;">Nadia K.</span>
+      </div>
+
+      <div class="testimonial-card reveal d2">
+        <div class="stars" style="margin-bottom:1.5rem;">★★★★★</div>
+        <p class="font-heading" style="font-size:1.12rem;font-style:italic;font-weight:300;line-height:1.78;color:rgba(28,21,24,0.72);margin-bottom:1.5rem;">
+          "I hired Isabelle for an editorial shoot and the looks she created were absolutely stunning. Every photographer on set was asking about her."
+        </p>
+        <div style="width:32px;height:1px;background:rgba(140,85,114,0.35);margin-bottom:0.85rem;"></div>
+        <span style="font-size:0.68rem;letter-spacing:0.14em;text-transform:uppercase;color:#8c5572;">Camille D.</span>
+      </div>
+
+      <div class="testimonial-card reveal d3">
+        <div class="stars" style="margin-bottom:1.5rem;">★★★★★</div>
+        <p class="font-heading" style="font-size:1.12rem;font-style:italic;font-weight:300;line-height:1.78;color:rgba(28,21,24,0.72);margin-bottom:1.5rem;">
+          "Booked for my prom and she made me look and feel like a celebrity. So worth every penny. Already booked her for my graduation!"
+        </p>
+        <div style="width:32px;height:1px;background:rgba(140,85,114,0.35);margin-bottom:0.85rem;"></div>
+        <span style="font-size:0.68rem;letter-spacing:0.14em;text-transform:uppercase;color:#8c5572;">Zara M.</span>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+
+<!-- ═══════════════════════════════════════════
+     BOOKING CTA
+═══════════════════════════════════════════ -->
+<section id="booking" style="background:#4e2a3c;padding:8rem 1.5rem;position:relative;overflow:hidden;">
+  <div style="position:absolute;bottom:-3rem;right:-1rem;font-family:'Cormorant Garamond',serif;font-size:clamp(10rem,25vw,20rem);font-weight:300;font-style:italic;color:rgba(255,255,255,0.04);line-height:1;pointer-events:none;user-select:none;white-space:nowrap;">Fleur</div>
+  <div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:700px;height:400px;background:radial-gradient(ellipse,rgba(196,137,156,0.14) 0%,transparent 65%);pointer-events:none;"></div>
+
+  <div style="max-width:680px;margin:0 auto;text-align:center;position:relative;z-index:1;">
+    <div class="reveal" style="display:flex;align-items:center;justify-content:center;gap:1rem;margin-bottom:1.5rem;">
+      <div style="width:36px;height:1px;background:rgba(196,137,156,0.4);"></div>
+      <span style="font-size:0.62rem;letter-spacing:0.28em;text-transform:uppercase;color:rgba(196,137,156,0.65);font-family:'Jost',sans-serif;">Ready to Book</span>
+      <div style="width:36px;height:1px;background:rgba(196,137,156,0.4);"></div>
+    </div>
+    <h2 class="font-heading reveal d1" style="font-size:clamp(2.8rem,6vw,5.5rem);font-weight:300;letter-spacing:-0.025em;line-height:1.08;color:#faf4ed;margin-bottom:2rem;">
+      Let's Create<br><em style="font-style:italic;color:#c4899c;">Your Look</em>
+    </h2>
+    <div style="width:50px;height:1px;background:linear-gradient(90deg,transparent,rgba(196,137,156,0.5),transparent);margin:0 auto 1.75rem;" class="reveal d2"></div>
+    <p class="reveal d3" style="font-size:0.9rem;color:rgba(250,244,237,0.46);letter-spacing:0.06em;margin-bottom:3rem;line-height:1.85;">
+      Every face tells a story — let's make yours unforgettable.
+    </p>
+    <div class="reveal d4">
+      <a href="https://calendly.com/studiofleur" target="_blank" class="btn-ivory">Book Your Appointment</a>
+    </div>
+  </div>
+</section>
+
+
+<!-- ═══════════════════════════════════════════
+     CONTACT
+═══════════════════════════════════════════ -->
+<section id="contact" style="background:#f4ebe0;padding:7rem 1.5rem;">
+  <div style="max-width:1280px;margin:0 auto;">
+
+    <div class="reveal" style="text-align:center;margin-bottom:4.5rem;">
+      <span class="section-overline">Get In Touch</span>
+      <h2 class="font-heading" style="font-size:clamp(2.5rem,5vw,4rem);font-weight:300;letter-spacing:-0.02em;color:#1c1518;margin-top:0.75rem;margin-bottom:1.5rem;">Contact</h2>
+      <div class="line-mauve-center"></div>
+    </div>
+
+    <div id="contact-grid" style="display:grid;grid-template-columns:1fr;gap:4.5rem;">
+
+      <div class="reveal d1" style="display:flex;flex-direction:column;gap:2.5rem;">
+        <div>
+          <div style="font-size:0.58rem;letter-spacing:0.22em;text-transform:uppercase;color:#8c5572;margin-bottom:0.5rem;font-family:'Jost',sans-serif;">Phone</div>
+          <a href="tel:4165550247" class="font-heading" style="font-size:1.6rem;font-weight:300;color:#1c1518;text-decoration:none;transition:color 0.3s;" onmouseover="this.style.color='#8c5572'" onmouseout="this.style.color='#1c1518'">(416) 555-0247</a>
+        </div>
+        <div>
+          <div style="font-size:0.58rem;letter-spacing:0.22em;text-transform:uppercase;color:#8c5572;margin-bottom:0.5rem;font-family:'Jost',sans-serif;">Email</div>
+          <a href="mailto:hello@studiofleur.com" class="font-heading" style="font-size:1.6rem;font-weight:300;color:#1c1518;text-decoration:none;transition:color 0.3s;" onmouseover="this.style.color='#8c5572'" onmouseout="this.style.color='#1c1518'">hello@studiofleur.com</a>
+        </div>
+        <div>
+          <div style="font-size:0.58rem;letter-spacing:0.22em;text-transform:uppercase;color:#8c5572;margin-bottom:0.5rem;font-family:'Jost',sans-serif;">Location</div>
+          <span class="font-heading" style="font-size:1.6rem;font-weight:300;color:rgba(28,21,24,0.6);">Toronto, Ontario</span>
+        </div>
+        <div>
+          <div style="font-size:0.58rem;letter-spacing:0.22em;text-transform:uppercase;color:#8c5572;margin-bottom:0.75rem;font-family:'Jost',sans-serif;">Follow Along</div>
+          <div style="display:flex;gap:2rem;">
+            <a href="https://www.instagram.com/studiofleur" target="_blank" class="nav-link">Instagram</a>
+            <a href="https://facebook.com/studiofleur" target="_blank" class="nav-link">Facebook</a>
+            <a href="https://www.tiktok.com/@studiofleur" target="_blank" class="nav-link">TikTok</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="reveal d2">
+        <form id="contact-form" onsubmit="submitForm(event)" style="display:flex;flex-direction:column;gap:1rem;">
+          <div>
+            <label style="font-size:0.58rem;letter-spacing:0.18em;text-transform:uppercase;color:rgba(28,21,24,0.38);display:block;margin-bottom:0.45rem;font-family:'Jost',sans-serif;">Your Name</label>
+            <input type="text" class="form-field" placeholder="Your full name" required>
+          </div>
+          <div>
+            <label style="font-size:0.58rem;letter-spacing:0.18em;text-transform:uppercase;color:rgba(28,21,24,0.38);display:block;margin-bottom:0.45rem;font-family:'Jost',sans-serif;">Email Address</label>
+            <input type="email" class="form-field" placeholder="your@email.com" required>
+          </div>
+          <div>
+            <label style="font-size:0.58rem;letter-spacing:0.18em;text-transform:uppercase;color:rgba(28,21,24,0.38);display:block;margin-bottom:0.45rem;font-family:'Jost',sans-serif;">Message</label>
+            <textarea class="form-field" rows="5" placeholder="Tell me about your event or vision..." required style="resize:none;"></textarea>
+          </div>
+          <button type="submit" class="btn-mauve" id="submit-btn" style="width:100%;padding:0.95rem;font-size:0.7rem;letter-spacing:0.18em;text-align:center;">
+            <span id="submit-label">Send Message</span>
+          </button>
+        </form>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+
+<!-- ═══════════════════════════════════════════
+     FOOTER
+═══════════════════════════════════════════ -->
+<footer style="background:#1c1518;padding:3.5rem 1.5rem;">
+  <div style="max-width:1280px;margin:0 auto;display:flex;flex-direction:column;align-items:center;text-align:center;gap:1.75rem;">
+    <div>
+      <div class="font-heading" style="font-size:1.6rem;font-weight:300;font-style:italic;color:#faf4ed;letter-spacing:0.06em;">Studio Fleur</div>
+      <p class="font-heading" style="font-size:0.88rem;font-style:italic;font-weight:300;color:rgba(250,244,237,0.28);margin-top:0.35rem;letter-spacing:0.06em;">Where Every Face Tells a Story</p>
+    </div>
+    <div style="width:48px;height:1px;background:linear-gradient(90deg,transparent,rgba(140,85,114,0.45),transparent);"></div>
+    <div style="display:flex;align-items:center;gap:2rem;">
+      <a href="https://www.instagram.com/studiofleur" target="_blank" class="nav-link" style="color:rgba(250,244,237,0.32);" onmouseover="this.style.color='#c4899c'" onmouseout="this.style.color='rgba(250,244,237,0.32)'">Instagram</a>
+      <div style="width:1px;height:10px;background:rgba(250,244,237,0.12);"></div>
+      <a href="https://facebook.com/studiofleur" target="_blank" class="nav-link" style="color:rgba(250,244,237,0.32);" onmouseover="this.style.color='#c4899c'" onmouseout="this.style.color='rgba(250,244,237,0.32)'">Facebook</a>
+      <div style="width:1px;height:10px;background:rgba(250,244,237,0.12);"></div>
+      <a href="https://www.tiktok.com/@studiofleur" target="_blank" class="nav-link" style="color:rgba(250,244,237,0.32);" onmouseover="this.style.color='#c4899c'" onmouseout="this.style.color='rgba(250,244,237,0.32)'">TikTok</a>
+    </div>
+    <p style="font-size:0.62rem;letter-spacing:0.12em;color:rgba(250,244,237,0.18);font-family:'Jost',sans-serif;">© 2026 Studio Fleur. All rights reserved.</p>
+  </div>
+</footer>
+
+
+<script>
+  /* ── Screenshot preview mode ── */
+  (function() {
+    const show = new URLSearchParams(location.search).get('show');
+    if (!show) return;
+    document.querySelectorAll('section, footer').forEach(el => {
+      if (el.id !== show) el.style.display = 'none';
+    });
+    document.getElementById('navbar').style.display = 'none';
+    document.getElementById('mobile-menu').style.display = 'none';
+    document.querySelectorAll('.reveal').forEach(el => el.classList.add('in'));
+  })();
+
+  /* ── Nav scroll ── */
+  const navbar = document.getElementById('navbar');
+  window.addEventListener('scroll', () => {
+    navbar.classList.toggle('scrolled', window.scrollY > 60);
+  }, { passive: true });
+
+  /* ── Mobile menu ── */
+  const hamburger = document.getElementById('hamburger');
+  const mobileMenu = document.getElementById('mobile-menu');
+  hamburger.addEventListener('click', () => {
+    hamburger.classList.toggle('open');
+    mobileMenu.classList.toggle('open');
+    document.body.style.overflow = mobileMenu.classList.contains('open') ? 'hidden' : '';
+  });
+  function closeMenu() {
+    hamburger.classList.remove('open');
+    mobileMenu.classList.remove('open');
+    document.body.style.overflow = '';
+  }
+
+  /* ── About two-col on lg ── */
+  function applyAboutLayout() {
+    const grid = document.getElementById('about-grid');
+    if (!grid) return;
+    const photo = grid.children[0];
+    const text = grid.children[1];
+    if (window.innerWidth >= 1024) {
+      grid.style.gridTemplateColumns = '1fr 1fr';
+      photo.style.order = '2';
+      text.style.order = '1';
+    } else {
+      grid.style.gridTemplateColumns = '1fr';
+      photo.style.order = '2';
+      text.style.order = '1';
+    }
+  }
+  applyAboutLayout();
+  window.addEventListener('resize', applyAboutLayout);
+
+  /* ── Contact two-col on lg ── */
+  function applyContactLayout() {
+    const grid = document.getElementById('contact-grid');
+    if (grid) grid.style.gridTemplateColumns = window.innerWidth >= 1024 ? '1fr 1fr' : '1fr';
+  }
+  applyContactLayout();
+  window.addEventListener('resize', applyContactLayout);
+
+  /* ── Gallery 3-col on md ── */
+  function applyGalleryLayout() {
+    const grid = document.getElementById('gallery-grid');
+    if (grid) grid.style.gridTemplateColumns = window.innerWidth >= 768 ? 'repeat(3,1fr)' : 'repeat(2,1fr)';
+  }
+  applyGalleryLayout();
+  window.addEventListener('resize', applyGalleryLayout);
+
+  /* ── Scroll reveal ── */
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.remove('will-animate');
+        e.target.classList.add('in');
+        observer.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.05, rootMargin: '0px 0px -20px 0px' });
+
+  document.querySelectorAll('.reveal').forEach(el => {
+    const rect = el.getBoundingClientRect();
+    if (rect.top < window.innerHeight && rect.bottom >= 0) {
+      /* already visible */
+    } else {
+      el.classList.add('will-animate');
+      observer.observe(el);
+    }
+  });
+
+  /* ── Form ── */
+  function submitForm(e) {
+    e.preventDefault();
+    const label = document.getElementById('submit-label');
+    label.textContent = 'Sent ✓';
+    setTimeout(() => { label.textContent = 'Send Message'; }, 3500);
+  }
+</script>
+</body>
+</html>
