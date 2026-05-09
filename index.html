@@ -303,18 +303,84 @@
     .d1{transition-delay:.08s} .d2{transition-delay:.16s} .d3{transition-delay:.24s} .d4{transition-delay:.32s}
 
     /* ── RESPONSIVE ── */
+    /* ── Tailwind critical fallbacks ── */
+    html { overflow-x: hidden; }
+    .hidden { display: none !important; }
+    @media (min-width: 768px) {
+      .md\:flex   { display: flex !important; }
+      .md\:hidden { display: none !important; }
+    }
+
+    /* ══ TABLET ≤ 900px ══ */
     @media (max-width: 900px) {
       #home { grid-template-columns: 1fr; }
-      .hero-right { min-height: 360px; position: relative; }
-      .photo-collage { position: relative; padding: 3rem 2rem; min-height: 360px; }
+      .hero-right { min-height: 300px; position: relative; }
+      .photo-collage { position: relative; padding: 2rem 2rem 0; min-height: 300px; }
       .photo-card { position: static !important; transform: none !important; display: none; width: 100%; aspect-ratio: 16/9; }
       .pc-1 { display: block; }
-      .hero-left { padding: 8rem 1.75rem 4rem; }
+      .hero-left { padding: 5.5rem 1.75rem 3.5rem; }
       .hero-left::before { display: none; }
       .gallery-stagger { grid-template-rows: 220px 180px 220px; }
       .gs-tall { grid-row: auto; }
       #about-fleur-inner { grid-template-columns: 1fr !important; gap: 3rem !important; }
       .about-portrait-mauve .frame-accent { display: none; }
+    }
+
+    /* ══ MOBILE ≤ 768px ══ */
+    @media (max-width: 768px) {
+      /* Hero */
+      .hero-left { padding: 5.5rem 1.25rem 3rem !important; }
+      .hero-h1 { font-size: 2.6rem !important; line-height: 1.08 !important; margin-bottom: 1.25rem !important; }
+      .hero-eyebrow { font-size: .6rem; margin-bottom: 1.5rem; }
+      .hero-sub { margin-bottom: 2rem; }
+
+      /* Hero photo: hide collage, show nothing (text-only hero on mobile) */
+      .hero-right { display: none !important; }
+
+      /* Buttons: full-width */
+      .hero-btns { flex-direction: column; gap: .75rem; }
+      .hero-btns a { width: 100%; justify-content: center; min-height: 52px; }
+
+      /* Gallery */
+      #gallery { padding: 3.5rem 0 0 !important; }
+      #gallery > div:first-child { padding: 0 1.25rem !important; }
+      .gallery-stagger { padding: 3px 1.25rem 3.5rem !important; grid-template-rows: auto !important; }
+      .gs-tall { grid-row: auto !important; }
+      .gs-item { min-height: 180px; }
+
+      /* Services */
+      #services { padding: 4rem 1.25rem !important; }
+      #services > div { max-width: 100% !important; }
+      .price-item { padding: 1.5rem 0 1.5rem 0 !important; }
+      .price-name { font-size: 1.35rem !important; }
+      .price-amount { font-size: 1.45rem !important; }
+
+      /* About */
+      #about { padding: 4rem 1.25rem !important; }
+      .about-pullquote { position: static !important; margin-top: 1.25rem; }
+
+      /* Testimonials */
+      #testimonials { padding: 4rem 1.25rem !important; }
+      .oq-text { font-size: 1.15rem !important; }
+
+      /* Booking */
+      #booking { min-height: auto !important; padding: 5rem 1.25rem !important; }
+      #booking .btn-ivory { width: 100%; justify-content: center; text-align: center; }
+
+      /* Contact */
+      #contact { padding: 4rem 1.25rem !important; }
+      #contact-grid { gap: 2.5rem !important; }
+
+      /* Footer */
+      footer { padding: 3rem 1.25rem !important; }
+    }
+
+    /* ══ SMALL MOBILE ≤ 480px ══ */
+    @media (max-width: 480px) {
+      .hero-left { padding-top: 5rem !important; }
+      .hero-h1 { font-size: 2.2rem !important; }
+      .price-name { font-size: 1.2rem !important; }
+      .price-amount { font-size: 1.3rem !important; }
     }
   </style>
 </head>
