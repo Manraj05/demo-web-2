@@ -328,30 +328,77 @@
 
     /* ══ MOBILE ≤ 768px ══ */
     @media (max-width: 768px) {
-      /* Hero */
-      .hero-left { padding: 5.5rem 1.25rem 3rem !important; }
-      .hero-h1 { font-size: 2.6rem !important; line-height: 1.08 !important; margin-bottom: 1.25rem !important; }
-      .hero-eyebrow { font-size: .6rem; margin-bottom: 1.5rem; }
-      .hero-sub { margin-bottom: 2rem; }
+      /* ── HERO ── */
+      /* Stack vertically, let content set its own height */
+      #home { display: flex !important; flex-direction: column !important; min-height: 0 !important; background: #faf4ed; }
 
-      /* Hero photo: show below text, full-width portrait strip */
-      .hero-right { display: block !important; height: 320px !important; overflow: hidden !important; background: #f0e8dd; }
-      /* Make the collage fill the container instead of floating cards */
-      .photo-collage { position: relative !important; height: 100% !important; padding: 0 !important; min-height: 0 !important; }
-      /* Only pc-1 — pin it to fill the container */
+      /* Text block: size to content */
+      .hero-left {
+        flex: 0 0 auto !important;
+        padding: 5.25rem 1.5rem 2.25rem !important;
+        justify-content: flex-start !important;
+      }
+      .hero-left::before { display: none !important; }
+
+      /* Typography */
+      .hero-h1 {
+        font-size: clamp(2.1rem, 8vw, 2.8rem) !important;
+        line-height: 1.08 !important;
+        margin-bottom: 1.25rem !important;
+      }
+      .hero-eyebrow {
+        font-size: .58rem !important;
+        letter-spacing: .18em !important;
+        margin-bottom: 1.25rem !important;
+        gap: .6rem !important;
+      }
+      .hero-eyebrow::before, .hero-eyebrow::after { flex: 0 0 18px !important; }
+      .hero-divider { margin-bottom: 1.25rem !important; }
+      .hero-sub {
+        font-size: .88rem !important;
+        margin-bottom: 1.75rem !important;
+        max-width: 100% !important;
+      }
+
+      /* Portrait photo strip — full-width, viewport-proportional height */
+      .hero-right {
+        display: block !important;
+        flex: 0 0 auto !important;
+        width: 100% !important;
+        height: clamp(240px, 56vw, 320px) !important;
+        overflow: hidden !important;
+        background: #f0e8dd;
+        position: relative !important;
+      }
+      /* Collage: fill the container */
+      .photo-collage {
+        position: absolute !important; inset: 0 !important;
+        padding: 0 !important; min-height: 0 !important;
+        display: block !important;
+      }
+      /* Show only pc-1, pinned full-bleed */
       .pc-1 {
         display: block !important;
         position: absolute !important; inset: 0 !important;
         width: 100% !important; height: 100% !important;
         aspect-ratio: unset !important; transform: none !important;
+        z-index: 1 !important;
       }
-      .pc-1 img { width: 100% !important; height: 100% !important; object-fit: cover !important; object-position: center 15% !important; }
-      /* Ensure pc-2/pc-3 stay hidden */
+      .pc-1 img {
+        width: 100% !important; height: 100% !important;
+        object-fit: cover !important; object-position: center 18% !important;
+        filter: brightness(.95) contrast(1.04) saturate(.88) !important;
+      }
       .pc-2, .pc-3 { display: none !important; }
 
-      /* Buttons: full-width */
-      .hero-btns { flex-direction: column; gap: .75rem; }
-      .hero-btns a { width: 100%; justify-content: center; min-height: 52px; }
+      /* Buttons: full-width, stacked, touch-friendly */
+      .hero-btns { flex-direction: column !important; gap: .75rem !important; width: 100% !important; }
+      .hero-btns a {
+        width: 100% !important;
+        justify-content: center !important;
+        min-height: 50px !important;
+        padding: .85rem 1.5rem !important;
+      }
 
       /* Gallery */
       #gallery { padding: 3.5rem 0 0 !important; }
@@ -387,12 +434,29 @@
       footer { padding: 3rem 1.25rem !important; }
     }
 
-    /* ══ SMALL MOBILE ≤ 480px ══ */
-    @media (max-width: 480px) {
-      .hero-left { padding-top: 5rem !important; }
-      .hero-h1 { font-size: 2.2rem !important; }
+    /* ══ 425px (large phones) ══ */
+    @media (max-width: 425px) {
+      .hero-left { padding: 5rem 1.25rem 2rem !important; }
+      .hero-h1 { font-size: clamp(1.95rem, 7.5vw, 2.4rem) !important; }
+      .hero-right { height: clamp(220px, 54vw, 280px) !important; }
       .price-name { font-size: 1.2rem !important; }
       .price-amount { font-size: 1.3rem !important; }
+    }
+
+    /* ══ 375px (iPhone standard) ══ */
+    @media (max-width: 375px) {
+      .hero-left { padding: 4.75rem 1.125rem 1.75rem !important; }
+      .hero-h1 { font-size: 2rem !important; }
+      .hero-right { height: 220px !important; }
+      .hero-sub { font-size: .84rem !important; }
+    }
+
+    /* ══ 320px (small phones) ══ */
+    @media (max-width: 320px) {
+      .hero-left { padding: 4.5rem 1rem 1.5rem !important; }
+      .hero-h1 { font-size: 1.8rem !important; }
+      .hero-right { height: 195px !important; }
+      .hero-eyebrow { font-size: .52rem !important; }
     }
   </style>
 </head>
