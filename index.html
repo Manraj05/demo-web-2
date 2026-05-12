@@ -162,20 +162,79 @@
     .photo-card:hover { z-index: 10; }
     .photo-card:hover img { filter: brightness(1) contrast(1.04) saturate(.9); }
 
-    /* ── GALLERY (2nd section): staggered ── */
+    /* ── GALLERY: 2×3 curated portfolio grid ── */
     #gallery { background: #f4ebe0; }
-    .gallery-stagger {
+    .gallery-grid {
       display: grid;
-      grid-template-columns: 1fr 1fr;
-      grid-template-rows: 280px 200px 260px;
-      gap: 4px;
+      grid-template-columns: repeat(3, 1fr);
+      grid-template-rows: repeat(2, 360px);
+      gap: 6px;
     }
-    .gs-item { overflow: hidden; position: relative; }
-    .gs-item img { width: 100%; height: 100%; object-fit: cover; transition: transform .7s cubic-bezier(.4,0,.2,1); filter: brightness(.94) contrast(1.04) saturate(.82); display: block; }
-    .gs-item:hover img { transform: scale(1.05); }
-    .gs-item::after { content: ''; position: absolute; inset: 0; background: linear-gradient(to top, rgba(28,21,24,.3) 0%, transparent 50%); z-index:1; }
-    .gs-tall { grid-row: 1 / 3; }
-    .gs-wide { grid-column: 1 / 3; height: 180px; }
+    .gg-item {
+      overflow: hidden;
+      position: relative;
+      cursor: pointer;
+    }
+    .gg-item img {
+      width: 100%; height: 100%;
+      object-fit: cover;
+      object-position: center top;
+      display: block;
+      transition: transform .8s cubic-bezier(.4,0,.2,1);
+      filter: brightness(.96) contrast(1.05) saturate(.9);
+    }
+    .gg-item:hover img { transform: scale(1.06); }
+    /* base dark gradient always present */
+    .gg-item::before {
+      content: '';
+      position: absolute; inset: 0;
+      background: linear-gradient(to top, rgba(28,21,24,.55) 0%, rgba(28,21,24,.05) 55%, transparent 100%);
+      z-index: 1;
+      transition: opacity .5s ease;
+    }
+    /* hover overlay */
+    .gg-item::after {
+      content: '';
+      position: absolute; inset: 0;
+      background: rgba(140,85,114,.18);
+      z-index: 2;
+      opacity: 0;
+      transition: opacity .45s ease;
+    }
+    .gg-item:hover::after { opacity: 1; }
+    /* label */
+    .gg-label {
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      z-index: 3;
+      padding: 1.4rem 1.25rem 1.1rem;
+    }
+    .gg-label-cat {
+      font-family: 'Jost', sans-serif;
+      font-size: .6rem;
+      letter-spacing: .18em;
+      text-transform: uppercase;
+      color: rgba(250,244,237,.55);
+      margin-bottom: .3rem;
+      transform: translateY(6px);
+      opacity: 0;
+      transition: transform .4s ease, opacity .4s ease;
+    }
+    .gg-label-name {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.05rem;
+      font-weight: 400;
+      font-style: italic;
+      color: #faf4ed;
+      transform: translateY(10px);
+      opacity: 0;
+      transition: transform .45s .05s ease, opacity .45s .05s ease;
+    }
+    .gg-item:hover .gg-label-cat,
+    .gg-item:hover .gg-label-name {
+      transform: translateY(0);
+      opacity: 1;
+    }
 
     /* ── SERVICES: editorial price list ── */
     .price-item {
@@ -403,9 +462,12 @@
       /* Gallery */
       #gallery { padding: 3.5rem 0 0 !important; }
       #gallery > div:first-child { padding: 0 1.25rem !important; }
-      .gallery-stagger { padding: 3px 1.25rem 3.5rem !important; grid-template-rows: auto !important; }
-      .gs-tall { grid-row: auto !important; }
-      .gs-item { min-height: 180px; }
+      .gallery-grid {
+        padding: 3px 1.25rem 3.5rem !important;
+        grid-template-columns: repeat(2, 1fr) !important;
+        grid-template-rows: repeat(3, 220px) !important;
+        gap: 4px !important;
+      }
 
       /* Services */
       #services { padding: 4rem 1.25rem !important; }
@@ -547,23 +609,63 @@
     <div style="width:100%;height:1px;background:rgba(28,21,24,.08);margin-bottom:3px;"></div>
   </div>
 
-  <!-- Staggered gallery — different row heights, nothing uniform -->
-  <div class="gallery-stagger" style="max-width:1280px;margin:0 auto;padding:3px 2.5rem 5rem;">
-    <div class="gs-item gs-tall reveal d1">
-      <img src="https://images.unsplash.com/photo-1503951914875-452162b0f3f1?auto=format&fit=crop&w=600&h=700&q=80" alt="Look 1">
+  <!-- 2×3 curated makeup portfolio -->
+  <div class="gallery-grid" style="max-width:1280px;margin:0 auto;padding:0 2.5rem 5rem;">
+
+    <!-- 1: Glam Bridal -->
+    <div class="gg-item reveal d1">
+      <img src="https://images.unsplash.com/photo-1597586124394-fbd6ef244026?auto=format&fit=crop&w=800&h=800&q=85" alt="Glam Bridal">
+      <div class="gg-label">
+        <div class="gg-label-cat">Bridal</div>
+        <div class="gg-label-name">Glam Bridal</div>
+      </div>
     </div>
-    <div class="gs-item reveal d2">
-      <img src="https://images.unsplash.com/photo-1520813792240-56fc4a3765a7?auto=format&fit=crop&w=600&h=280&q=80" alt="Look 2">
+
+    <!-- 2: Everyday Natural -->
+    <div class="gg-item reveal d2">
+      <img src="https://images.unsplash.com/photo-1631730486784-74757d38e27f?auto=format&fit=crop&w=800&h=800&q=85" alt="Everyday Natural">
+      <div class="gg-label">
+        <div class="gg-label-cat">Everyday</div>
+        <div class="gg-label-name">Soft Natural</div>
+      </div>
     </div>
-    <div class="gs-item reveal d3">
-      <img src="https://images.unsplash.com/photo-1469334031218-e382a71b716b?auto=format&fit=crop&w=600&h=200&q=80" alt="Look 3">
+
+    <!-- 3: Bold Editorial -->
+    <div class="gg-item reveal d3">
+      <img src="https://images.unsplash.com/photo-1614252369475-531eba835eb1?auto=format&fit=crop&w=800&h=800&q=85" alt="Bold Editorial">
+      <div class="gg-label">
+        <div class="gg-label-cat">Editorial</div>
+        <div class="gg-label-name">Bold & Artistic</div>
+      </div>
     </div>
-    <div class="gs-item reveal d1">
-      <img src="https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=crop&w=600&h=260&q=80" alt="Look 4">
+
+    <!-- 4: Defined Brows & Detail -->
+    <div class="gg-item reveal d1">
+      <img src="https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?auto=format&fit=crop&w=800&h=800&q=85" alt="Defined Brows">
+      <div class="gg-label">
+        <div class="gg-label-cat">Detail Work</div>
+        <div class="gg-label-name">Brow Definition</div>
+      </div>
     </div>
-    <div class="gs-item reveal d2">
-      <img src="https://images.unsplash.com/photo-1529626455594-4ff0802cfb7e?auto=format&fit=crop&w=600&h=260&q=80" alt="Look 5">
+
+    <!-- 5: Warm Tones / Golden Hour -->
+    <div class="gg-item reveal d2">
+      <img src="https://images.unsplash.com/photo-1487412947147-5cebf100ffc2?auto=format&fit=crop&w=800&h=800&q=85" alt="Golden Hour">
+      <div class="gg-label">
+        <div class="gg-label-cat">Color Theory</div>
+        <div class="gg-label-name">Golden Hour</div>
+      </div>
     </div>
+
+    <!-- 6: Flawless Base -->
+    <div class="gg-item reveal d3">
+      <img src="https://images.unsplash.com/photo-1516975080664-ed2fc6a32937?auto=format&fit=crop&w=800&h=800&q=85" alt="Flawless Base">
+      <div class="gg-label">
+        <div class="gg-label-cat">Foundation</div>
+        <div class="gg-label-name">Flawless Base</div>
+      </div>
+    </div>
+
   </div>
 </section>
 
